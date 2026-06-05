@@ -32,7 +32,7 @@ jobs:
           # Em produção real, você faria o download do artefato do dbt Cloud ou AWS S3 aqui
           # mkdir -p prod_manifest && curl -o prod_manifest/manifest.json https://seu-bucket.s3.amazonaws.com/manifest.json
 
-      - name: 🦾 Execute SLIM CI (Processa APENAS o que foi modificado)
+      - name:  Execute SLIM CI (Processa APENAS o que foi modificado)
         run: |
           # Criamos um manifesto temporário de simulação para o seu teste local funcionar na nuvem
           dbt parse --profiles-dir .
