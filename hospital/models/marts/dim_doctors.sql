@@ -12,3 +12,5 @@ select
     
     _loaded_at as data_carga_registro
 from stg_doctors
+
+-- Testando o disparo automatizado do Slim CI no GitHub Actions
