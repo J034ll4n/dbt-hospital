@@ -1,0 +1,41 @@
+name: "dbt Slim CI - Push Verification"
+
+# Mudamos o gatilho para 'push' na main, assim ele roda direto quando você enviar o código!
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  slim_ci_run:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dbt and Dependencies
+        run: |
+          pip install dbt-snowflake
+          cd hospital
+          dbt deps
+
+      - name:  Execute SLIM CI
+        env:
+          DBT_ENV_USER: ${{ secrets.DBT_ENV_USER }}
+          DBT_ENV_PASSPHRASE: ${{ secrets.DBT_ENV_PASSPHRASE }}
+          DBT_ENV_PRIVATE_KEY: ${{ secrets.DBT_ENV_PRIVATE_KEY }}
+        run: |
+          cd hospital
+          dbt parse --profiles-dir .
+          mkdir -p prod_manifest
+          cp target/manifest.json prod_manifest/manifest.json
+          
+          # Como estamos testando o primeiro disparo, vamos rodar o projeto todo na nuvem para validar as chaves
+          dbt run --profiles-dir .
+          dbt test --profiles-dir .
