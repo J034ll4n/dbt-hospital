@@ -27,9 +27,9 @@ jobs:
 
       - name:  Execute SLIM CI
         env:
-          DBT_ENV_USER: ${{ secrets.DBT_ENV_USER }}
-          DBT_ENV_PASSPHRASE: ${{ secrets.DBT_ENV_PASSPHRASE }}
-          DBT_ENV_PRIVATE_KEY: ${{ secrets.DBT_ENV_PRIVATE_KEY }}
+          DBT_ENV_USER: ${{ secrets.DBT_ENV_SECRET_USER }}
+          DBT_ENV_PASSPHRASE: ${{ secrets.DBT_ENV_SECRET_PASSWORD }}
+          DBT_ENV_PRIVATE_KEY: ${{ secrets.DBT_ENV_SECRET_PRIVATE_KEY }}
         run: |
           cd hospital
           dbt parse --profiles-dir .
