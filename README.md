@@ -1,7 +1,7 @@
-<img src="img/dbt-dag.png" alt="dbt Lineage Graph - Medallion Architecture" width="100%">
+
 
 ```markdown
-# 🏥 Pipeline de Analytics Engineering: Healthcare Data Platform
+#  Pipeline de Analytics Engineering: Healthcare Data Platform
 
 Este repositório contém a infraestrutura de modelagem analítica para dados de saúde, desenvolvida utilizando as práticas modernas de Analytics Engineering através do **dbt Core (v1.11)**, **Snowflake Data Warehouse** e esteira automatizada de **CI/CD via GitHub Actions**.
 
@@ -9,12 +9,12 @@ O objetivo estratégico do projeto é transformar um conjunto de dados brutos al
 
 ---
 
-## 🏗️ 1. Arquitetura da Plataforma e Linhagem de Dados
+##  1. Arquitetura da Plataforma e Linhagem de Dados
 
 O projeto adota a arquitetura de dados em camadas (**Medallion Architecture**), dividindo o ciclo de vida do dado em três estágios lógicos essenciais:
 
 ```text
-📥 Landing Zone (RAW)          ⚙️ Camada Staging (dbt)              📈 Camada Marts (Dimensional)
+ Landing Zone (RAW)           Camada Staging (dbt)                  Camada Marts (Dimensional)
 +-----------------------+     +-------------------------------+     +---------------------------+
 |                       |     | Fragmentação Lógica           |     |                           |
 | Tabela Achatada Única | === | 7 Entidades Limpas            | === | Modelagem Star Schema     |
@@ -38,7 +38,7 @@ A camada de entrada do Data Warehouse é monitorada de perto por regras automati
 * **Garantia de Atualização:** Foi configurada uma janela de monitoramento temporal de dados. O pipeline dispara um aviso (*Warning*) caso a origem passe de 12 horas sem receber novos registros, e entra em estado de erro crítico (*Error*) bloqueando a esteira caso atinja 24 horas de inatividade.
 
 ---
-
+<img src="hospital/img/dbt-dag.png" alt="dbt Lineage Graph - Medallion Architecture" width="100%">
 ##  3. Engenharia de Transformação na Camada de Staging
 
 Na camada de Staging, a tabela achatada original foi normalizada e decomposta em **7 entidades analíticas distintas**, isolando as dimensões de negócio da tabela de fatos operacionais.
@@ -179,7 +179,8 @@ Sempre que um Engenheiro de Dados submete uma alteração de código ou cria uma
  12. Consumo de Dados: Centro de Controle Hospitalar (Dashboard)
 Como camada final de apresentação e extração de valor, desenvolvemos um painel executivo interativo focado na melhor experiência de usuário (UI/UX em Dark Mode) para a tomada de decisão estratégica e clínica. O aplicativo web consome os dados tratados diretamente da nossa modelagem dimensional no Snowflake.
 
- Acessar o Centro de Controle Online
+ Acessar o Dashboard: 
+https://dbt-hospital-dhhha2cbaeftcrtxyxqpfr.streamlit.app/
 
 O painel é estruturado em três abas analíticas principais:
 
