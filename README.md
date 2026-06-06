@@ -6,14 +6,12 @@ Transformando dados brutos de saúde em uma Torre de Controle Executiva.
 Acessar o Dashboard: https://dbt-hospital-dhhha2cbaeftcrtxyxqpfr.streamlit.app/
 
 
-```markdown
 #  Pipeline de Analytics Engineering: Healthcare Data Platform
 
 Este repositório contém a infraestrutura de modelagem analítica para dados de saúde, desenvolvida utilizando as práticas modernas de Analytics Engineering através do **dbt Core (v1.11)**, **Snowflake Data Warehouse** e esteira automatizada de **CI/CD via GitHub Actions**.
 
 O objetivo estratégico do projeto é transformar um conjunto de dados brutos altamente acoplados (uma tabela única e achatada oriunda de sistemas legados de saúde) em um modelo dimensional limpo, governado e otimizado para tomadas de decisão executivas e inteligência preditiva.
 
----
 
 ##  1. Arquitetura da Plataforma e Linhagem de Dados
 
@@ -33,8 +31,8 @@ O projeto adota a arquitetura de dados em camadas (**Medallion Architecture**), 
 1. **Camada Bronze / RAW (Snowflake):** Ingestão literal e imutável do arquivo original `healthcare_dataset_2.csv`. Não há qualquer transformação nesta etapa, garantindo a rastreabilidade da origem dos dados.
 2. **Camada Silver / Staging (dbt):** Fase de saneamento, normalização analítica e aplicação de governança. A tabela única é desmembrada em entidades de negócio, onde aplicamos tipagem rígida, tratamento de nulos e mascaramento de strings.
 3. **Camada Gold / Marts (dbt):** Agrupamento das entidades em um modelo dimensional (*Star Schema*) focado em performance de leitura para ferramentas de Business Intelligence (BI) e Data Science.
-
----
+-
+--
 
 ##  2. Governança e Monitoramento de Origens (`sources.yml`)
 
