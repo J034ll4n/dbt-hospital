@@ -1,3 +1,5 @@
+<img src="img/dbt-dag.png" alt="dbt Lineage Graph - Medallion Architecture" width="100%">
+
 ```markdown
 # 🏥 Pipeline de Analytics Engineering: Healthcare Data Platform
 
@@ -6,10 +8,6 @@ Este repositório contém a infraestrutura de modelagem analítica para dados de
 O objetivo estratégico do projeto é transformar um conjunto de dados brutos altamente acoplados (uma tabela única e achatada oriunda de sistemas legados de saúde) em um modelo dimensional limpo, governado e otimizado para tomadas de decisão executivas e inteligência preditiva.
 
 ---
-<div align="center">
-  <img src="img/dbt-dag.png" alt="dbt Lineage Graph - Medallion Architecture" width="100%">
-  <p><em>Gráfico de Linhagem do dbt demonstrando a separação entre Staging e a Camada Dimensional (Star Schema).</em></p>
-</div>
 
 ## 🏗️ 1. Arquitetura da Plataforma e Linhagem de Dados
 
@@ -32,7 +30,7 @@ O projeto adota a arquitetura de dados em camadas (**Medallion Architecture**), 
 
 ---
 
-## 🔌 2. Governança e Monitoramento de Origens (`sources.yml`)
+##  2. Governança e Monitoramento de Origens (`sources.yml`)
 
 A camada de entrada do Data Warehouse é monitorada de perto por regras automatizadas de qualidade e obsolescência de dados (*Data Freshness*):
 
@@ -41,7 +39,7 @@ A camada de entrada do Data Warehouse é monitorada de perto por regras automati
 
 ---
 
-## 🧼 3. Engenharia de Transformação na Camada de Staging
+##  3. Engenharia de Transformação na Camada de Staging
 
 Na camada de Staging, a tabela achatada original foi normalizada e decomposta em **7 entidades analíticas distintas**, isolando as dimensões de negócio da tabela de fatos operacionais.
 
@@ -64,7 +62,7 @@ Na camada de Staging, a tabela achatada original foi normalizada e decomposta em
 
 ---
 
-## 📈 4. Camada de Modelagem Dimensional (Marts / Gold)
+##  4. Camada de Modelagem Dimensional (Marts / Gold)
 
 Na camada final de modelagem, as entidades saneadas na etapa anterior são estruturadas seguindo a metodologia **Kimball (Star Schema)**. O objetivo é criar tabelas dimensionais puras, otimizadas para junções rápidas na leitura, fornecendo um ambiente de alta performance para ferramentas de BI e analistas de negócio.
 
@@ -80,7 +78,7 @@ Nesta etapa, todas as dimensões são materializadas como **Tabelas (`table`)** 
 
 ---
 
-## 👥 5. Regras Avançadas de Negócio e Deduplicação (`dim_patients`)
+##  5. Regras Avançadas de Negócio e Deduplicação (`dim_patients`)
 
 A dimensão de pacientes (`dim_patients`) é o ponto mais complexo e robusto da modelagem dimensional deste projeto. Como a origem baseia-se num histórico cumulativo de internações (onde um paciente pode internar-se múltiplas vezes), foi aplicada uma estratégia rigorosa de **Deduplicação e Inteligência Demográfica**:
 
@@ -92,7 +90,7 @@ A dimensão de pacientes (`dim_patients`) é o ponto mais complexo e robusto da 
 
 ---
 
-## 🔐 6. Governação de Dados, Privacidade e Mascaração de Dados (`secure_patients_view`)
+##  6. Governação de Dados, Privacidade e Mascaração de Dados (`secure_patients_view`)
 
 Pensando nos padrões de conformidade com leis de proteção de dados (como a **LGPD** ou **GDPR**), o projeto não expõe informações sensíveis diretamente à camada final de consumo de BI sem critérios de segurança.
 
@@ -104,7 +102,7 @@ Para resolver este problema de conformidade, foi desenvolvida a **`secure_patien
 
 ---
 
-## 📊 7. Camada de Factos e Performance Incremental (`fct_admissions`)
+##  7. Camada de Factos e Performance Incremental (`fct_admissions`)
 
 O modelo `fct_admissions` é a tabela central do nosso ecossistema analítico (*Star Schema*). Ela consolida os eventos operacionais e financeiros das internações hospitalares, atuando como a ponte de ligação que consome as chaves substitutas de todas as dimensões (`dim_patients`, `dim_doctors`, etc.).
 
@@ -115,7 +113,7 @@ O modelo `fct_admissions` é a tabela central do nosso ecossistema analítico (*
 
 ---
 
-## 🦾 8. Ecossistema de Engenharia Modular: Macros (Jinja)
+##  8. Ecossistema de Engenharia Modular: Macros (Jinja)
 
 Para evitar a repetição de código SQL complexo (*DRY - Don't Repeat Yourself*), a inteligência do projeto foi descentralizada em bibliotecas de **Macros reutilizáveis**, divididas por domínios de negócio:
 
@@ -137,7 +135,7 @@ Para evitar a repetição de código SQL complexo (*DRY - Don't Repeat Yourself*
 
 ---
 
-## 🪱 9. Enriquecimento com Dados Estáticos (`seed_disease_severity`)
+##  9. Enriquecimento com Dados Estáticos (`seed_disease_severity`)
 
 Nem todos os dados analíticos vêm de sistemas transacionais dinâmicos. Regras de classificação institucional, por exemplo, costumam ser geridas por equipas de auditoria médica.
 
@@ -148,7 +146,7 @@ Para enriquecer as análises de saúde, utilizámos o recurso de **Seeds** do db
 
 ---
 
-## 🕒 10. Rastreabilidade Temporal Histórica: Snapshots (`snap_patients`)
+##  10. Rastreabilidade Temporal Histórica: Snapshots (`snap_patients`)
 
 Os sistemas de origem costumam atualizar os dados dos pacientes sobrescrevendo as linhas no banco de dados operacional (ocultando o histórico de alterações). Para garantir auditorias médicas e relatórios retroativos fiáveis, implementámos um **Snapshot** com a estratégia de monitorização lenta de dimensões (**SCD Tipo 2**).
 
@@ -158,18 +156,18 @@ Os sistemas de origem costumam atualizar os dados dos pacientes sobrescrevendo a
 
 ---
 
-## 🚀 11. Automação de Qualidade, Testes de Dados e CI/CD
+##  11. Automação de Qualidade, Testes de Dados e CI/CD
 
 A confiabilidade da nossa plataforma de dados de saúde é blindada por uma esteira de **Integração Contínua (CI/CD)** automatizada através do **GitHub Actions**, operando de forma integrada ao Snowflake.
 
-### 🛡️ Matriz de Testes de Dados (Data Quality)
+###  Matriz de Testes de Dados (Data Quality)
 
 O pipeline executa uma bateria rigorosa de **32 testes automatizados** a cada execução:
 
 * **Testes Nativos do Schema:** Garantem chaves primárias únicas (`unique`) e mandatórias (`not_null`) em todas as tabelas de dimensões e factos, além de validar a integridade referencial (*Foreign Keys*) entre a tabela de factos e as suas dimensões através de testes de `relationships`.
 * **Testes Singulares Customizados:** Desenvolvemos regras de integridade lógica hospitalar personalizadas. O teste singular interseta a base de dados para garantir, por exemplo, que nenhuma data de alta hospitalar seja inferior ou anterior à data de internação do paciente. Qualquer quebra nesta regra de negócio faz o pipeline falhar imediatamente, impedindo que dados inconsistentes cheguem aos dashboards de BI.
 
-### 🤖 Esteira Automática de CI/CD (GitHub Actions)
+###  Esteira Automática de CI/CD (GitHub Actions)
 
 Sempre que um Engenheiro de Dados submete uma alteração de código ou cria uma nova modelagem analítica neste repositório:
 
@@ -178,10 +176,15 @@ Sempre que um Engenheiro de Dados submete uma alteração de código ou cria uma
 3. Puxa de forma segura as chaves criptográficas de acesso do Snowflake (**Repository Secrets**) para assinar a conexão ignorando a necessidade de MFA humano.
 4. Executa o dbt para compilar e testar exclusivamente os modelos alterados.
 
-O sucesso da execução e a validação completa de todas as transformações e testes analíticos são coroados pelo selo verde de aprovação do robô:
+ 12. Consumo de Dados: Centro de Controle Hospitalar (Dashboard)
+Como camada final de apresentação e extração de valor, desenvolvemos um painel executivo interativo focado na melhor experiência de usuário (UI/UX em Dark Mode) para a tomada de decisão estratégica e clínica. O aplicativo web consome os dados tratados diretamente da nossa modelagem dimensional no Snowflake.
 
-> ✅ **Pipeline Status:** All 32 data tests passed successfully on Snowflake Data Cloud. Code build is safe for production deployment.
+ Acessar o Centro de Controle Online
 
-```
+O painel é estruturado em três abas analíticas principais:
 
-```
+Visão Geral Operacional: Acompanhamento do fluxo de leitos em tempo real (Admissões vs. Altas), análise de faturamento escalável, ticket médio financeiro por Ala Médica e distribuição do perfil de entrada (Urgência vs. Eletiva).
+
+Desfechos Clínicos: Monitoramento da gravidade clínica cruzando resultados de exames com patologias, rastreamento de casos críticos (alertas de Long Stay) e análise da média de dias de internação.
+
+Demografia e Suprimentos: Gestão inteligente da demanda do banco de sangue, controle do volume dos medicamentos mais prescritos e análise avançada do perfil demográfico dos pacientes.
