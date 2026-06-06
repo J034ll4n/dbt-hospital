@@ -31,7 +31,7 @@ O projeto adota a arquitetura de dados em camadas (**Medallion Architecture**), 
 1. **Camada Bronze / RAW (Snowflake):** Ingestão literal e imutável do arquivo original `healthcare_dataset_2.csv`. Não há qualquer transformação nesta etapa, garantindo a rastreabilidade da origem dos dados.
 2. **Camada Silver / Staging (dbt):** Fase de saneamento, normalização analítica e aplicação de governança. A tabela única é desmembrada em entidades de negócio, onde aplicamos tipagem rígida, tratamento de nulos e mascaramento de strings.
 3. **Camada Gold / Marts (dbt):** Agrupamento das entidades em um modelo dimensional (*Star Schema*) focado em performance de leitura para ferramentas de Business Intelligence (BI) e Data Science.
--
+<img src="hospital/img/dbt-dag.png" alt="dbt Lineage Graph - Medallion Architecture" width="100%">
 --
 
 ##  2. Governança e Monitoramento de Origens (`sources.yml`)
@@ -42,7 +42,7 @@ A camada de entrada do Data Warehouse é monitorada de perto por regras automati
 * **Garantia de Atualização:** Foi configurada uma janela de monitoramento temporal de dados. O pipeline dispara um aviso (*Warning*) caso a origem passe de 12 horas sem receber novos registros, e entra em estado de erro crítico (*Error*) bloqueando a esteira caso atinja 24 horas de inatividade.
 
 ---
-<img src="hospital/img/dbt-dag.png" alt="dbt Lineage Graph - Medallion Architecture" width="100%">
+
 ##  3. Engenharia de Transformação na Camada de Staging
 
 Na camada de Staging, a tabela achatada original foi normalizada e decomposta em **7 entidades analíticas distintas**, isolando as dimensões de negócio da tabela de fatos operacionais.
