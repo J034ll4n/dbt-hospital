@@ -1,7 +1,7 @@
 #  Pipeline End-to-End | dbt + Snowflake + Streamlit + CI/CD
 Transformando dados brutos de saúde em uma Torre de Controle Executiva.
 
-<img src="hospital/img/arquitetura.jpeg" alt="Arquitetura" width="100%">
+<img src="hospital/img/arquitetura.jpg" alt="Arquitetura" width="100%">
 
 Acessar o Dashboard: https://dbt-hospital-dhhha2cbaeftcrtxyxqpfr.streamlit.app/
 
