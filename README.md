@@ -1,37 +1,6 @@
 # 🚀 Pipeline End-to-End | dbt + Snowflake + Streamlit + CI/CD
 Transformando dados brutos de saúde em uma Torre de Controle Executiva.
 
-flowchart LR
-    %% Configuração de Cores e Estilos
-    classDef file fill:#f8f9fa,stroke:#adb5bd,stroke-width:2px,color:#212529;
-    classDef snow fill:#e1f5fe,stroke:#03a9f4,stroke-width:2px,color:#01579b;
-    classDef dbt fill:#fff3e0,stroke:#ff9800,stroke-width:2px,color:#e65100;
-    classDef app fill:#e8f5e9,stroke:#4caf50,stroke-width:2px,color:#1b5e20;
-    classDef github fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px,color:#4a148c;
-
-    %% Elementos
-    A([📄 Dados Brutos\nCSV]):::file
-    
-    subgraph DW [❄️ Snowflake Data Warehouse]
-        direction LR
-        B[(RAW\nLanding)]:::snow
-        C{{🔨 dbt Core\nTransformação}}:::dbt
-        D[(STAGING\nEntidades)]:::snow
-        E[(MARTS\nStar Schema)]:::snow
-        
-        B --> C
-        C --> D
-        D --> C
-        C --> E
-    end
-
-    F[🖥️ Streamlit\nCentro de Controle]:::app
-    G[🐙 GitHub Actions\nCI/CD & 32 Testes]:::github
-
-    %% Conexões
-    A -- Ingestão --> B
-    E -- Leitura Dinâmica --> F
-    G -.-> |Orquestra & Valida| C
 
 Acessar o Dashboard: https://dbt-hospital-dhhha2cbaeftcrtxyxqpfr.streamlit.app/
 
